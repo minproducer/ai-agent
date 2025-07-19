@@ -1,0 +1,36 @@
+# .gitignore
+
+# Node modules
+node_modules/
+
+# Logs
+logs
+*.log
+npm-debug.log*
+
+# Runtime data
+pids
+*.pid
+*.seed
+*.pid.lock
+
+# Build output
+dist/
+build/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Env
+.env
+.env.*
+
+# VS Code
+.vscode/
+
+# Mac stuff
+__MACOSX/
+
+# Optional: Ignore local dev settings
+*.local.*
