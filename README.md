@@ -1,12 +1,74 @@
-# React + Vite
+# 🤖 AI Agent UI — Powered by Puter
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A minimalist AI frontend for Puter Agents — supports chat, image generation, model switching, and persistent conversations per user.
+No backend. No setup. Just log in and build.
 
-Currently, two official plugins are available:
+---
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## ✨ Features
 
-## Expanding the ESLint configuration
+- 🔐 Login via [Puter](https://puter.com)
+- 💬 Chat with your agent
+- 🖼️ Generate images from text
+- 🧠 Switch between AI models
+- 📀 Auto-save chat history per user (stored via Puter)
+- 🗑️ Delete history anytime
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+---
+
+## ⚙️ Tech Stack
+
+- React + Vite
+- TailwindCSS (optional)
+- Puter.js SDK
+- Local session management
+
+---
+
+## 🚀 Getting Started
+
+```bash
+git clone https://github.com/minproducer/ai-agent.git
+cd ai-agent
+npm install
+npm run dev
+```
+
+Visit [http://localhost:5173](http://localhost:5173)
+
+---
+
+## 🧪 Dev Notes
+
+- No custom backend — only Puter auth + API via SDK
+- User data (chat, models) stored by Puter account
+- Extendable UI for future plugins or agents
+
+---
+
+## 📆 Build for Production
+
+```bash
+npm run build
+```
+
+Static files in `/dist`, ready for Vercel, Netlify, etc.
+
+---
+
+## 🙇 Author
+
+**MinProducer**
+🔗 [Facebook](https://fb.com/minproducer.fb) | [GitHub](https://github.com/minproducer) | [Telegram](https://t.me/minproducer)
+
+---
+
+## 🛍️ Philosophy
+
+> “Small tools. Big power. Your agent, your way.”
+
+---
+
+## 📜 License
+
+MIT — fork, remix, hack to your heart’s content.
