@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { Image, Loader2, Trash2, Download, Copy, ExternalLink } from 'lucide-react';
+import { useTheme, themeClasses } from './ThemeContext';
 
 const ImageGenerator = () => {
+  const { isDark } = useTheme();
   const [generatedImages, setGeneratedImages] = useState([]);
   const [imagePrompt, setImagePrompt] = useState('');
   const [isGeneratingImage, setIsGeneratingImage] = useState(false);
@@ -213,17 +215,17 @@ const ImageGenerator = () => {
   };
 
   return (
-    <div className="bg-white rounded-2xl shadow-lg overflow-hidden">
-      <div className="border-b bg-gray-50 px-6 py-4">
-        <h2 className="text-lg font-semibold text-gray-800">Tạo ảnh với AI</h2>
+    <div className={`${themeClasses.card} rounded-2xl shadow-lg overflow-hidden`}>
+      <div className={`border-b ${themeClasses.border.primary} ${themeClasses.bg.secondary} px-6 py-4`}>
+        <h2 className={`text-lg font-semibold ${themeClasses.text.primary}`}>Tạo ảnh với AI</h2>
       </div>
 
-      <div className="p-6">
+      <div className={`p-6 ${themeClasses.bg.primary}`}>
         {/* Mode Toggle */}
-        <div className="flex items-center justify-between mb-4 p-3 bg-gray-50 rounded-lg">
+        <div className={`flex items-center justify-between mb-4 p-3 ${themeClasses.bg.secondary} rounded-lg`}>
           <div>
-            <h3 className="font-medium text-gray-800">Generation Mode</h3>
-            <p className="text-sm text-gray-600">
+            <h3 className={`font-medium ${themeClasses.text.primary}`}>Generation Mode</h3>
+            <p className={`text-sm ${themeClasses.text.secondary}`}>
               {useTestMode ? 'Test Mode - Free generation with sample images' : 'Production Mode - High quality images (uses credits)'}
             </p>
           </div>
@@ -234,8 +236,8 @@ const ImageGenerator = () => {
               onChange={(e) => setUseTestMode(e.target.checked)}
               className="sr-only peer"
             />
-            <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-blue-600"></div>
-            <span className="ml-3 text-sm font-medium text-gray-700">
+            <div className={`w-11 h-6 ${themeClasses.bg.tertiary} peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 dark:peer-focus:ring-blue-800 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-blue-600`}></div>
+            <span className={`ml-3 text-sm font-medium ${themeClasses.text.primary}`}>
               {useTestMode ? 'Test' : 'Production'}
             </span>
           </label>
@@ -248,7 +250,7 @@ const ImageGenerator = () => {
             onChange={(e) => setImagePrompt(e.target.value)}
             onKeyPress={(e) => e.key === 'Enter' && generateImage()}
             placeholder="Mô tả ảnh bạn muốn tạo (VD: Một chú mèo dễ thương trong vườn hoa)"
-            className="flex-1 border border-gray-300 rounded-lg px-4 py-2 focus:ring-2 focus:ring-purple-500 focus:border-transparent outline-none"
+            className={`flex-1 border ${themeClasses.border.primary} rounded-lg px-4 py-2 focus:ring-2 focus:ring-purple-500 focus:border-transparent outline-none ${themeClasses.bg.primary} ${themeClasses.text.primary}`}
             disabled={isGeneratingImage}
           />
           <button
@@ -268,16 +270,20 @@ const ImageGenerator = () => {
         {/* Credit Management Info */}
         <div className={`border rounded-lg p-4 mb-6 ${
           useTestMode 
-            ? 'bg-blue-50 border-blue-200' 
-            : 'bg-yellow-50 border-yellow-200'
+            ? 'bg-blue-50 border-blue-200 dark:bg-blue-900/20 dark:border-blue-800' 
+            : 'bg-yellow-50 border-yellow-200 dark:bg-yellow-900/20 dark:border-yellow-800'
         }`}>
           <h3 className={`font-medium mb-2 ${
-            useTestMode ? 'text-blue-800' : 'text-yellow-800'
+            useTestMode 
+              ? 'text-blue-800 dark:text-blue-300' 
+              : 'text-yellow-800 dark:text-yellow-300'
           }`}>
             {useTestMode ? '🧪 Test Mode Active' : '💎 Production Mode'}
           </h3>
           <ul className={`text-sm space-y-1 ${
-            useTestMode ? 'text-blue-700' : 'text-yellow-700'
+            useTestMode 
+              ? 'text-blue-700 dark:text-blue-400' 
+              : 'text-yellow-700 dark:text-yellow-400'
           }`}>
             {useTestMode ? (
               <>
@@ -299,7 +305,7 @@ const ImageGenerator = () => {
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
           {generatedImages.map((image) => (
-            <div key={image.id} className="relative group bg-white border border-gray-200 rounded-lg overflow-hidden shadow-sm hover:shadow-md transition-shadow duration-200">
+            <div key={image.id} className={`relative group ${themeClasses.bg.primary} border ${themeClasses.border.primary} rounded-lg overflow-hidden shadow-sm hover:shadow-md transition-shadow duration-200`}>
               <img
                 src={image.url}
                 alt={image.prompt}
@@ -349,13 +355,13 @@ const ImageGenerator = () => {
               </div>
               
               <div className="p-4">
-                <p className="text-sm text-gray-600 line-clamp-2 mb-2">{image.prompt}</p>
+                <p className={`text-sm ${themeClasses.text.secondary} line-clamp-2 mb-2`}>{image.prompt}</p>
                 <div className="flex justify-between items-center">
-                  <p className="text-xs text-gray-400">
+                  <p className={`text-xs ${themeClasses.text.tertiary}`}>
                     {new Date(image.timestamp).toLocaleDateString('vi-VN')} • {new Date(image.timestamp).toLocaleTimeString('vi-VN')}
                   </p>
                   {image.testMode && (
-                    <span className="text-xs bg-blue-100 text-blue-600 px-2 py-1 rounded">
+                    <span className="text-xs bg-blue-100 text-blue-600 dark:bg-blue-900/50 dark:text-blue-400 px-2 py-1 rounded">
                       Test Mode
                     </span>
                   )}
@@ -366,7 +372,7 @@ const ImageGenerator = () => {
         </div>
 
         {generatedImages.length === 0 && (
-          <div className="text-center text-gray-500 py-12">
+          <div className={`text-center ${themeClasses.text.secondary} py-12`}>
             <Image className="h-12 w-12 mx-auto mb-4 opacity-50" />
             <p className="text-lg mb-2">Chưa có ảnh nào được tạo</p>
             <p className="text-sm">Nhập mô tả ảnh và bấm "Tạo ảnh" để bắt đầu</p>
@@ -375,8 +381,8 @@ const ImageGenerator = () => {
 
         {/* Storage info */}
         {generatedImages.length > 5 && (
-          <div className="mt-6 p-4 bg-yellow-50 border border-yellow-200 rounded-lg">
-            <p className="text-sm text-yellow-700">
+          <div className="mt-6 p-4 bg-yellow-50 border border-yellow-200 dark:bg-yellow-900/20 dark:border-yellow-800 rounded-lg">
+            <p className="text-sm text-yellow-700 dark:text-yellow-400">
               ⚠️ <strong>Lưu ý về Storage:</strong> Do giới hạn lưu trữ, chỉ giữ tối đa 10 ảnh gần nhất. 
               Hãy download ảnh quan trọng để lưu trữ lâu dài!
             </p>

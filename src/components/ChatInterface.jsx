@@ -1,8 +1,10 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Send, Loader2, Save, Download, Trash2, MessageCircle, Settings, ChevronDown, History, Cpu, Image, Paperclip } from 'lucide-react';
 import ImageUploadComponent from './ImageUploadComponent';
+import { useTheme, themeClasses } from './ThemeContext';
 
 const ChatInterface = () => {
+  const { isDark } = useTheme();
   const [messages, setMessages] = useState([]);
   const [inputMessage, setInputMessage] = useState('');
   const [isLoading, setIsLoading] = useState(false);
@@ -346,16 +348,16 @@ const ChatInterface = () => {
   };
 
   return (
-    <div className="bg-white rounded-2xl shadow-lg overflow-hidden">
-      <div className="border-b bg-gray-50 px-6 py-4">
+    <div className={`${themeClasses.card} rounded-2xl shadow-lg overflow-hidden`}>
+      <div className={`border-b ${themeClasses.border.primary} ${themeClasses.bg.secondary} px-6 py-4`}>
         <div className="flex justify-between items-center mb-3">
-          <h2 className="text-lg font-semibold text-gray-800">Trò chuyện với AI</h2>
+          <h2 className={`text-lg font-semibold ${themeClasses.text.primary}`}>Trò chuyện với AI</h2>
           <div className="flex items-center space-x-2">
             {/* Model Selector */}
             <div className="relative">
               <button
                 onClick={() => setShowModelSelector(!showModelSelector)}
-                className="flex items-center space-x-2 bg-indigo-500 text-white px-3 py-1.5 rounded-lg hover:bg-indigo-600 transition duration-200"
+                className={`flex items-center space-x-2 ${themeClasses.bg.accent} ${themeClasses.text.accent} px-3 py-1.5 rounded-lg ${themeClasses.interactive.hover} transition duration-200`}
               >
                 <Cpu className="h-4 w-4" />
                 <span className="text-sm">{getModelDisplay(selectedModel).split(' (')[0]}</span>
@@ -363,9 +365,9 @@ const ChatInterface = () => {
               </button>
               
               {showModelSelector && (
-                <div className="absolute right-0 top-full mt-2 w-80 bg-white border rounded-lg shadow-lg z-50 max-h-96 overflow-y-auto">
-                  <div className="p-3 border-b bg-gray-50">
-                    <h3 className="font-semibold text-gray-800">Chọn AI Model</h3>
+                <div className={`absolute right-0 top-full mt-2 w-80 ${themeClasses.bg.primary} ${themeClasses.border.primary} border rounded-lg shadow-lg z-50 max-h-96 overflow-y-auto`}>
+                  <div className={`p-3 border-b ${themeClasses.border.primary} ${themeClasses.bg.secondary}`}>
+                    <h3 className={`font-semibold ${themeClasses.text.primary}`}>Chọn AI Model</h3>
                   </div>
                   {aiModels.map((model) => (
                     <button
@@ -374,16 +376,16 @@ const ChatInterface = () => {
                         setSelectedModel(model.id);
                         setShowModelSelector(false);
                       }}
-                      className={`w-full text-left px-4 py-3 hover:bg-gray-50 border-b border-gray-100 ${
-                        selectedModel === model.id ? 'bg-indigo-50 border-l-4 border-l-indigo-500' : ''
+                      className={`w-full text-left px-4 py-3 ${themeClasses.interactive.hover} border-b ${themeClasses.border.primary} ${
+                        selectedModel === model.id ? `${themeClasses.bg.tertiary} border-l-4 border-l-blue-500` : ''
                       }`}
                     >
                       <div className="flex justify-between items-start">
                         <div>
-                          <div className="font-medium text-gray-800">{model.name}</div>
-                          <div className="text-sm text-gray-600">{model.description}</div>
+                          <div className={`font-medium ${themeClasses.text.primary}`}>{model.name}</div>
+                          <div className={`text-sm ${themeClasses.text.secondary}`}>{model.description}</div>
                         </div>
-                        <span className="text-xs bg-gray-200 px-2 py-1 rounded">{model.provider}</span>
+                        <span className={`text-xs ${themeClasses.bg.tertiary} ${themeClasses.text.secondary} px-2 py-1 rounded`}>{model.provider}</span>
                       </div>
                     </button>
                   ))}
@@ -397,7 +399,7 @@ const ChatInterface = () => {
               className={`flex items-center space-x-2 px-3 py-1.5 rounded-lg transition duration-200 ${
                 showImageUpload 
                   ? 'bg-orange-500 text-white' 
-                  : 'bg-orange-100 text-orange-600 hover:bg-orange-200'
+                  : `${themeClasses.bg.tertiary} ${themeClasses.text.secondary} ${themeClasses.interactive.hover}`
               }`}
             >
               <Image className="h-4 w-4" />
@@ -407,7 +409,7 @@ const ChatInterface = () => {
             {/* Chat History Button */}
             <button
               onClick={() => setShowChatHistory(!showChatHistory)}
-              className="flex items-center space-x-2 bg-gray-500 text-white px-3 py-1.5 rounded-lg hover:bg-gray-600 transition duration-200"
+              className={`flex items-center space-x-2 ${themeClasses.bg.tertiary} ${themeClasses.text.secondary} px-3 py-1.5 rounded-lg ${themeClasses.interactive.hover} transition duration-200`}
             >
               <History className="h-4 w-4" />
               <span>Lịch sử</span>
@@ -416,18 +418,18 @@ const ChatInterface = () => {
         </div>
         
         {/* Current Model Display */}
-        <div className="text-sm text-gray-600 mb-3">
-          Đang sử dụng: <span className="font-medium text-indigo-600">{getModelDisplay(selectedModel)}</span>
+        <div className={`text-sm ${themeClasses.text.secondary} mb-3`}>
+          Đang sử dụng: <span className={`font-medium ${themeClasses.text.accent}`}>{getModelDisplay(selectedModel)}</span>
         </div>
         
         {/* Image Upload Panel */}
         {showImageUpload && (
-          <div className="mt-3 p-4 bg-orange-50 rounded-lg border border-orange-200">
+          <div className="mt-3 p-4 bg-orange-50 dark:bg-orange-900/20 rounded-lg border border-orange-200 dark:border-orange-800">
             <div className="flex justify-between items-center mb-3">
-              <h3 className="font-semibold text-gray-800">Upload & Phân tích ảnh</h3>
+              <h3 className={`font-semibold ${themeClasses.text.primary}`}>Upload & Phân tích ảnh</h3>
               <button
                 onClick={() => setShowImageUpload(false)}
-                className="text-gray-500 hover:text-gray-700"
+                className={`${themeClasses.text.secondary} ${themeClasses.interactive.hover}`}
               >
                 ×
               </button>
@@ -441,20 +443,20 @@ const ChatInterface = () => {
         
         {/* Chat History Panel */}
         {showChatHistory && (
-          <div className="mt-3 p-4 bg-gray-100 rounded-lg max-h-64 overflow-y-auto">
-            <h3 className="font-semibold text-gray-800 mb-3">Lịch sử chat ({chatHistory.length})</h3>
+          <div className={`mt-3 p-4 ${themeClasses.bg.tertiary} rounded-lg max-h-64 overflow-y-auto`}>
+            <h3 className={`font-semibold ${themeClasses.text.primary} mb-3`}>Lịch sử chat ({chatHistory.length})</h3>
             {chatHistory.length === 0 ? (
-              <p className="text-gray-500 text-sm">Chưa có chat nào được lưu</p>
+              <p className={`${themeClasses.text.secondary} text-sm`}>Chưa có chat nào được lưu</p>
             ) : (
               <div className="space-y-2">
                 {chatHistory.slice().reverse().map((chat) => (
-                  <div key={chat.id} className="flex items-center justify-between p-3 bg-white rounded border hover:shadow-sm transition duration-200">
+                  <div key={chat.id} className={`flex items-center justify-between p-3 ${themeClasses.bg.primary} rounded border ${themeClasses.border.primary} ${themeClasses.interactive.hover} transition duration-200`}>
                     <div 
                       className="flex-1 cursor-pointer"
                       onClick={() => loadChatFromHistory(chat)}
                     >
-                      <div className="font-medium text-gray-800 text-sm truncate">{chat.title}</div>
-                      <div className="text-xs text-gray-500">
+                      <div className={`font-medium ${themeClasses.text.primary} text-sm truncate`}>{chat.title}</div>
+                      <div className={`text-xs ${themeClasses.text.secondary}`}>
                         {chat.messages?.length || 0} tin nhắn • {getModelDisplay(chat.model || 'gpt-4o-mini')} • {new Date(chat.timestamp).toLocaleDateString('vi-VN')}
                       </div>
                     </div>
@@ -510,9 +512,9 @@ const ChatInterface = () => {
         </div>
       </div>
 
-      <div className="h-96 overflow-y-auto p-6 space-y-4">
+      <div className={`h-96 overflow-y-auto p-6 space-y-4 ${themeClasses.bg.primary}`}>
         {messages.length === 0 && (
-          <div className="text-center text-gray-500 py-12">
+          <div className={`text-center ${themeClasses.text.secondary} py-12`}>
             <MessageCircle className="h-12 w-12 mx-auto mb-4 opacity-50" />
             <p>Bắt đầu cuộc trò chuyện với AI của bạn!</p>
             <p className="text-xs mt-2">💡 Lịch sử chat được tự động lưu</p>
@@ -526,8 +528,8 @@ const ChatInterface = () => {
               message.role === 'user'
                 ? 'bg-blue-500 text-white'
                 : message.isError
-                ? 'bg-red-100 text-red-800 border border-red-200'
-                : 'bg-gray-100 text-gray-800'
+                ? 'bg-red-100 text-red-800 border border-red-200 dark:bg-red-900/20 dark:text-red-400 dark:border-red-800'
+                : `${themeClasses.bg.secondary} ${themeClasses.text.primary}`
             }`}>
               {/* Image preview for user messages with images */}
               {message.image && (
@@ -556,10 +558,10 @@ const ChatInterface = () => {
         
         {isLoading && (
           <div className="flex justify-start">
-            <div className="bg-gray-100 px-4 py-3 rounded-2xl">
+            <div className={`${themeClasses.bg.secondary} px-4 py-3 rounded-2xl`}>
               <div className="flex items-center space-x-2">
                 <Loader2 className="h-4 w-4 animate-spin" />
-                <span className="text-sm text-gray-600">{getModelDisplay(selectedModel).split(' (')[0]} đang suy nghĩ...</span>
+                <span className={`text-sm ${themeClasses.text.secondary}`}>{getModelDisplay(selectedModel).split(' (')[0]} đang suy nghĩ...</span>
               </div>
             </div>
           </div>
@@ -567,14 +569,14 @@ const ChatInterface = () => {
         <div ref={messagesEndRef} />
       </div>
 
-      <div className="border-t bg-gray-50 p-4">
+      <div className={`border-t ${themeClasses.border.primary} ${themeClasses.bg.secondary} p-4`}>
         <div className="flex space-x-3">
           <button
             onClick={() => setShowImageUpload(!showImageUpload)}
             className={`p-2 rounded-lg transition duration-200 ${
               showImageUpload 
                 ? 'bg-orange-500 text-white' 
-                : 'bg-gray-200 text-gray-600 hover:bg-gray-300'
+                : `${themeClasses.bg.tertiary} ${themeClasses.text.secondary} ${themeClasses.interactive.hover}`
             }`}
           >
             <Paperclip className="h-5 w-5" />
@@ -586,7 +588,7 @@ const ChatInterface = () => {
             onChange={(e) => setInputMessage(e.target.value)}
             onKeyPress={(e) => e.key === 'Enter' && sendMessage()}
             placeholder={`Nhập tin nhắn cho ${getModelDisplay(selectedModel).split(' (')[0]}...`}
-            className="flex-1 border border-gray-300 rounded-lg px-4 py-2 focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none"
+            className={`flex-1 border ${themeClasses.border.primary} rounded-lg px-4 py-2 focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none ${themeClasses.bg.primary} ${themeClasses.text.primary}`}
             disabled={isLoading}
           />
           <button
@@ -600,8 +602,8 @@ const ChatInterface = () => {
         </div>
         
         {showImageUpload && (
-          <div className="mt-3 p-3 bg-orange-50 rounded-lg border border-orange-200">
-            <p className="text-sm text-orange-700 mb-2">💡 Tip: Upload ảnh để phân tích, OCR, hoặc hỏi về nội dung ảnh</p>
+          <div className="mt-3 p-3 bg-orange-50 dark:bg-orange-900/20 rounded-lg border border-orange-200 dark:border-orange-800">
+            <p className="text-sm text-orange-700 dark:text-orange-300 mb-2">💡 Tip: Upload ảnh để phân tích, OCR, hoặc hỏi về nội dung ảnh</p>
           </div>
         )}
       </div>
